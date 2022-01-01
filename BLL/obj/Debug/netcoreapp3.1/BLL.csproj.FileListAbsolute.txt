@@ -1,0 +1,12 @@
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\bin\Debug\netcoreapp3.1\BLL.deps.json
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\bin\Debug\netcoreapp3.1\BLL.dll
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\bin\Debug\netcoreapp3.1\BLL.pdb
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\bin\Debug\netcoreapp3.1\DAL.dll
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\bin\Debug\netcoreapp3.1\DAL.pdb
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.csprojAssemblyReference.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.AssemblyInfoInputs.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.AssemblyInfo.cs
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.csproj.CoreCompileInputs.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.csproj.CopyComplete
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.dll
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\BLL\obj\Debug\netcoreapp3.1\BLL.pdb

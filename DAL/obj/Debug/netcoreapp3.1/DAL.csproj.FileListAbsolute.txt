@@ -1,0 +1,12 @@
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.deps.json
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.dll
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.pdb
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.AssemblyInfoInputs.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.AssemblyInfo.cs
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.csproj.CoreCompileInputs.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.dll
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.pdb
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.runtimeconfig.json
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.runtimeconfig.dev.json
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.genruntimeconfig.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.csprojAssemblyReference.cache
