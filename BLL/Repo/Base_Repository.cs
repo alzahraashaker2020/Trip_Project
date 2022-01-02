@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Repo
 {
-    public abstract class Base_Repo<T> : IBaseRepo<T> where T : class
+    public abstract class Base_Repository<T> : IBaseRepo<T> where T : class
     {
         protected TripContext _Context { set; get; }
 
@@ -21,7 +21,7 @@ namespace BLL.Repo
         {
             get => table ?? (table = _Context.Set<T>());
         }
-        public Base_Repo(TripContext context)
+        public Base_Repository(TripContext context)
         {
             _Context = context;
             table = context.Set<T>();
@@ -67,10 +67,10 @@ namespace BLL.Repo
             return res;
         }
 
-            public async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)
+            public List<T> GetByCondition(Expression<Func<T, bool>> expression)
         {
 
-            var result = await table.Where(expression).ToListAsync();
+            var result =  table.Where(expression).ToList();
 
             return result;
         }

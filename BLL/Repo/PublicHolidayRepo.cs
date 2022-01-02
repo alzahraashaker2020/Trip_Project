@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    class PublicHolidayRepo : Base_Repo<PublicHoliday>, IPublicHoliday
+    class PublicHolidayRepo : Base_Repository<PublicHoliday>, IPublicHoliday
     {
         public PublicHolidayRepo(TripContext dbContext) : base(dbContext)
         {

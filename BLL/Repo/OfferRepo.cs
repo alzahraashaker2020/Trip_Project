@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    class OfferRepo : Base_Repo<Offer>, IOffer
+    class OfferRepo : Base_Repository<Offer>, IOffer
     {
         public OfferRepo(TripContext dbContext) : base(dbContext)
         {

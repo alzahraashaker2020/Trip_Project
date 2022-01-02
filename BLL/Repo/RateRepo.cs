@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-   public class RateRepo : Base_Repo<Rate>, IRate
+   public class RateRepo : Base_Repository<Rate>, IRate
     {
         public RateRepo(TripContext dbContext) : base(dbContext)
         {

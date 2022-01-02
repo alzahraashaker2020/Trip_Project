@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    public class AreaDiscountRepo: Base_Repo<AreaDiscount>, IAreaDiscount
+    public class AreaDiscountRepo: Base_Repository<AreaDiscount>, IAreaDiscount
     {
         public AreaDiscountRepo(TripContext dbContext) : base(dbContext)
         {

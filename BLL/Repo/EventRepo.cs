@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    public class EventRepo : Base_Repo<Event>, IEvent
+    public class EventRepo : Base_Repository<Event>, IEvent
     {
         public EventRepo(TripContext dbContext) : base(dbContext)
         {

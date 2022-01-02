@@ -29,7 +29,7 @@ namespace Trip.Controllers
         [Route("PendingDrivers")]
         public JsonResult GetAllPendingDriver()
         {
-            var pendingDrivers_vm = repo._User.GetAll();
+            var pendingDrivers_vm = repo._User.GetByCondition(s=>s.SutatusSuspend==1);
             //var json = JsonSerializer.Serialize(pendingDrivers_vm, new JsonSerializerOptions()
             //{
             //    WriteIndented = true,

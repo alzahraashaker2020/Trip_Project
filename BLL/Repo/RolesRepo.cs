@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    class RolesRepo : Base_Repo<Roles>, IRoles
+    class RolesRepo : Base_Repository<Roles>, IRoles
     {
         public RolesRepo(TripContext dbContext) : base(dbContext)
         {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    public class AreaRepo : Base_Repo<Area>, IArea
+    public class AreaRepo : Base_Repository<Area>, IArea
     {
         private readonly IRepoWrapper repo;
         private TripContext context;

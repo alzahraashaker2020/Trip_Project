@@ -13,7 +13,7 @@ namespace BLL.IRepo
         Task<List<T>> GetAllWithInc(List<string> inclde_List);
         Task<List<T>> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null);
         Task<T> GetByID(int Id);
-        Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression);
+        List<T> GetByCondition(Expression<Func<T, bool>> expression);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> order = null, string includeproperties = "");
         void Create(T Entity);
         void Update(T Entity);

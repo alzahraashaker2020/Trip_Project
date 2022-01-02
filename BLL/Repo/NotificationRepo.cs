@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    class NotificationRepo : Base_Repo<Notification>, INotification
+    class NotificationRepo : Base_Repository<Notification>, INotification
     {
         public NotificationRepo(TripContext dbContext) : base(dbContext)
         {

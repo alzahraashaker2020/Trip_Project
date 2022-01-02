@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-   public class RideRepo : Base_Repo<Ride>, IRide
+   public class RideRepo : Base_Repository<Ride>, IRide
     {
         public RideRepo(TripContext dbContext) : base(dbContext)
         {

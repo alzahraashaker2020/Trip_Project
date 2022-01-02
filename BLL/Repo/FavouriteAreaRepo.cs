@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-   public class FavouriteAreaRepo : Base_Repo<FavouriteArea>, IFavouriteArea
+   public class FavouriteAreaRepo : Base_Repository<FavouriteArea>, IFavouriteArea
     {
         public FavouriteAreaRepo(TripContext dbContext) : base(dbContext)
         {

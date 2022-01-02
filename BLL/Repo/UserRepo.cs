@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Repo
 {
-    class UserRepo : Base_Repo<User>, IUser
+    class UserRepo : Base_Repository<User>, IUser
     {
         public UserRepo(TripContext dbContext) : base(dbContext)
         {
