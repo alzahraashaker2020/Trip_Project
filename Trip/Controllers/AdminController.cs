@@ -147,11 +147,12 @@ namespace Trip.Controllers
         [Route("GetAllEventOnSpecificRide")]
         public JsonResult GetAllEventOnSpecificRide(int rideId)
         {
+            List<string> include = new List<string>();
+            include.Add("User");
             List<Events_VM> events_VMs = new List<Events_VM>();
-            var Event= repo._Event.GetByCondition(s=>s.RideId==rideId).Result;
-           
+            var Event= repo._Event.GetByConditionWithInclude(s=>s.RideId==rideId,include).Result.Select(s=>new Events_VM {EventName=s.EventName,EventDate=s.EventDate,ClientName=s.User.Name,RoleId=s.User.RoleId });
 
-            return Json(events_VMs, new System.Text.Json.JsonSerializerOptions());
+            return Json(Event, new System.Text.Json.JsonSerializerOptions());
         }
 
 

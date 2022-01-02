@@ -55,8 +55,21 @@ namespace BLL.Repo
             }
             return await res.ToListAsync();
         }
-        public async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)
+        public async Task<List<T>> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null)
         {
+            List<T> res = null;
+            foreach (var item in inclde_List)
+            {
+                 res = await table.Include(item).Where(expression).ToListAsync();
+
+            }
+
+            return res;
+        }
+
+            public async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)
+        {
+
             var result = await table.Where(expression).ToListAsync();
 
             return result;
