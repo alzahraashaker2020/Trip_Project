@@ -10,7 +10,9 @@ namespace DAL.Models
         public int? RideId { get; set; }
         public DateTime? EventDate { get; set; }
         public string Note { get; set; }
+        public int UserId { get; set; }
 
         public virtual Ride Ride { get; set; }
+        public virtual User User { get; set; }
     }
 }

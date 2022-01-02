@@ -38,13 +38,13 @@ namespace BLL.Repo
 
         }
 
-        public async Task<List<T>> GetAll()
+        public  List<T> GetAll()
         {
             //CustomQueryBuilder<T>.GetList(table );
 
-            return await table.ToListAsync();
+            return  table.ToList();
         }
-        public async Task<List<T>> GetAll(List<string> inclde_List)
+        public async Task<List<T>> GetAllWithInc(List<string> inclde_List)
         {
             //CustomQueryBuilder<T>.GetList(table );
             IQueryable<T> res = null;
@@ -61,6 +61,8 @@ namespace BLL.Repo
 
             return result;
         }
+
+
 
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {

@@ -82,7 +82,7 @@ namespace Trip.Controllers
         {
             List<string> include = new List<string>();
             include.Add("Area");
-            var areas = repo._FavouriteArea.GetAll(include).Result.Where(s=>s.DriverId==driverId).ToList();
+            var areas = repo._FavouriteArea.GetAllWithInc(include).Result.Where(s=>s.DriverId==driverId).ToList();
             var json = JsonSerializer.Serialize(areas, new JsonSerializerOptions()
             {
                 WriteIndented = true,
@@ -217,6 +217,29 @@ namespace Trip.Controllers
             return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
         }
 
+        [HttpGet]
+        [Route("GetDriverNotification")]
+        public JsonResult GetDriverNotification(int driverId)
+        {
+            var allDriverNotification = repo._Notification.GetByCondition(s => s.UserId == driverId ).Result;
+            foreach (var item in allDriverNotification)
+            {
+                item.SeenStatus = true;
+                repo._Notification.Update(item);
+            }
+            try
+            {
+                repo.Save();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(allDriverNotification, new JsonSerializerOptions());
+        }
+
 
         //************************************************Passenger operation********************************//
 
@@ -284,16 +307,17 @@ namespace Trip.Controllers
             //Discounts sales = new Discounts(null);
             //2-compare date of ride with passenger birth day
             var passenger = repo._User.GetByID(userId).Result;
-            DateTime dt = DateTime.ParseExact(DateTime.Now.ToString(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-
-            string s = dt.ToString("dd/M/", CultureInfo.InvariantCulture);
-            string y = passenger.BirthDate.ToString("dd/M/");
-
+           if( passenger.BirthDate.Value.Month== DateTime.Now.Month&& passenger.BirthDate.Value.Day== DateTime.Now.Day)
+            {
+                newRide.DiscountVal = 0.1;
+            }
+  
             //5- check if it is the frist ride for passenger
             var isfristRie = repo._Ride.GetByCondition(s => s.ClientId == userId).Result.FirstOrDefault();
+
             //1- get area that have discount and compare with destination area
             var isDiscountArea=repo._AreaDiscount.GetByCondition(s => s.AreaId == destination);
-            if (isDiscountArea != null|| s.CompareTo(y) == 0|| isfristRie != null)
+            if (isDiscountArea != null|| isfristRie != null)
             {
                 newRide.DiscountVal = 0.1;
                 //sales = new Discounts(new AreaDiacountSteratgy());
@@ -301,7 +325,7 @@ namespace Trip.Controllers
 
           
             //3-check date of ride is holiday or not
-            var isHoliday = repo._PublicHoliday.GetByCondition(s => s.HolidayDate == dt);
+            var isHoliday = repo._PublicHoliday.GetByCondition(s => s.HolidayDate.Value.Month == DateTime.Now.Month && s.HolidayDate.Value.Day == DateTime.Now.Day);
             if (isHoliday != null||Nopassenger == 2)
             {
                 newRide.DiscountVal = 0.02;
@@ -385,6 +409,30 @@ namespace Trip.Controllers
 
             return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
         }
+
+        [HttpGet]
+        [Route("GetPassengerNotification")]
+        public JsonResult GetPassengerNotification(int passengerId)
+        {
+            var allDriverNotification = repo._Notification.GetByCondition(s => s.UserId == passengerId).Result;
+            foreach (var item in allDriverNotification)
+            {
+                item.SeenStatus = true;
+                repo._Notification.Update(item);
+            }
+            try
+            {
+                repo.Save();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(allDriverNotification, new JsonSerializerOptions());
+        }
+
 
     }
 }

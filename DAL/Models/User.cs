@@ -7,6 +7,7 @@ namespace DAL.Models
     {
         public User()
         {
+            Event = new HashSet<Event>();
             FavouriteArea = new HashSet<FavouriteArea>();
             Notification = new HashSet<Notification>();
             Offer = new HashSet<Offer>();
@@ -24,10 +25,11 @@ namespace DAL.Models
         public string NationalId { get; set; }
         public string LicenceId { get; set; }
         public string Password { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public int? RoleId { get; set; }
 
         public virtual Roles Role { get; set; }
+        public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<FavouriteArea> FavouriteArea { get; set; }
         public virtual ICollection<Notification> Notification { get; set; }
         public virtual ICollection<Offer> Offer { get; set; }

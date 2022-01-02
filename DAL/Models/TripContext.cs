@@ -83,10 +83,18 @@ namespace DAL.Models
 
                 entity.Property(e => e.RideId).HasColumnName("Ride_ID");
 
+                entity.Property(e => e.UserId).HasColumnName("User_ID");
+
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.Event)
                     .HasForeignKey(d => d.RideId)
                     .HasConstraintName("FK_Event_Ride");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_User");
             });
 
             modelBuilder.Entity<FavouriteArea>(entity =>

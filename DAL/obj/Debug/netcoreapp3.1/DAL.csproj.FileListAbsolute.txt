@@ -9,3 +9,4 @@ D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netc
 D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.runtimeconfig.json
 D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\bin\Debug\netcoreapp3.1\DAL.runtimeconfig.dev.json
 D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.genruntimeconfig.cache
+D:\Pre_Master\Advanced software 2\Project\Sprint2\TripProject\DAL\obj\Debug\netcoreapp3.1\DAL.csprojAssemblyReference.cache

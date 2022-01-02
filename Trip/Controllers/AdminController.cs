@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Trip.Controllers
@@ -27,17 +29,12 @@ namespace Trip.Controllers
         [Route("PendingDrivers")]
         public JsonResult GetAllPendingDriver()
         {
-            var pendingDrivers_vm = repo._User.GetAll().Result.Where(s=>s.SutatusSuspend==1).Select(s => new Driver_VM
-            {
-                id = s.Id,
-                name = s.Name,
-                nationalId = s.NationalId,
-                licenceId = s.LicenceId,
-                phone = s.Phone,
-                email=s.Email,
-                password=s.Password,
-                roleId=s.RoleId
-            }).ToList();
+            var pendingDrivers_vm = repo._User.GetAll();
+            //var json = JsonSerializer.Serialize(pendingDrivers_vm, new JsonSerializerOptions()
+            //{
+            //    WriteIndented = true,
+            //    ReferenceHandler = ReferenceHandler.Preserve
+            //});
             return Json(pendingDrivers_vm, new System.Text.Json.JsonSerializerOptions());
         }
 
@@ -64,7 +61,7 @@ namespace Trip.Controllers
         [Route("GetAllUsers")]
         public JsonResult GetAllUsers()
         {
-            var users_vm = repo._User.GetAll().Result.ToList();
+            var users_vm = repo._User.GetAll().ToList();
             return Json(users_vm, new System.Text.Json.JsonSerializerOptions());
         }
 
@@ -92,7 +89,7 @@ namespace Trip.Controllers
         [Route("DisplayAllAreas")]
         public JsonResult GetAllAreas()
         {
-            var areas_vm = repo._Area.GetAll().Result.ToList();
+            var areas_vm = repo._Area.GetAll().ToList();
             return Json(areas_vm, new System.Text.Json.JsonSerializerOptions());
         }
 
@@ -151,19 +148,8 @@ namespace Trip.Controllers
         public JsonResult GetAllEventOnSpecificRide(int rideId)
         {
             List<Events_VM> events_VMs = new List<Events_VM>();
-            var Event= repo._Event.GetByCondition(s=>s.RideId==rideId).Result.Select(s=>new Events_VM {EventDate=s.EventDate,EventName=s.EventName,RideId=s.RideId });
-            var ride = repo._Ride.GetByCondition(s => s.Id == rideId).Result;
-            int DriverId = (int)(int?)( ride.Select(s => s.DriverId).FirstOrDefault());
-            var DriverName = repo._User.GetByCondition(s=>s.Id==DriverId).Result.Select(s=> string.IsNullOrEmpty(s.Name) ? " " : s.Name).FirstOrDefault();
-            var ClientId = (int)(int?)(ride.Select(s => s.ClientId).FirstOrDefault());
-            var ClientName = repo._User.GetByID(ClientId).Result.Name;
-
-            events_VMs = (List<Events_VM>)Event;
-            foreach (var item in events_VMs)
-            {
-                item.ClientName = ClientName;
-                item.DriverName = DriverName;
-            }
+            var Event= repo._Event.GetByCondition(s=>s.RideId==rideId).Result;
+           
 
             return Json(events_VMs, new System.Text.Json.JsonSerializerOptions());
         }

@@ -9,8 +9,8 @@ namespace BLL.IRepo
 {
     public interface IBaseRepo<T>
     {
-        Task<List<T>> GetAll();
-        Task<List<T>> GetAll(List<string> inclde_List);
+        List<T> GetAll();
+        Task<List<T>> GetAllWithInc(List<string> inclde_List);
         Task<T> GetByID(int Id);
         Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> order = null, string includeproperties = "");
