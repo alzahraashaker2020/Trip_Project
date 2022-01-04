@@ -44,7 +44,7 @@ namespace BLL.Repo
 
             return  table.ToList();
         }
-        public async Task<List<T>> GetAllWithInc(List<string> inclde_List)
+        public  List<T> GetAllWithInc(List<string> inclde_List)
         {
             //CustomQueryBuilder<T>.GetList(table );
             IQueryable<T> res = null;
@@ -53,14 +53,14 @@ namespace BLL.Repo
                  res = table.Include(item);
 
             }
-            return await res.ToListAsync();
+            return res.ToList();
         }
-        public async Task<List<T>> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null)
+        public  List<T> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null)
         {
             List<T> res = null;
             foreach (var item in inclde_List)
             {
-                 res = await table.Include(item).Where(expression).ToListAsync();
+                 res =  table.Include(item).Where(expression).ToList();
 
             }
 
@@ -101,9 +101,9 @@ namespace BLL.Repo
                 return query.ToList();
             }
         }
-        public async Task<T> GetByID(int Id)
+        public  T GetByID(int Id)
         {
-            return await table.FindAsync(Id);
+            return  table.Find(Id);
         }
 
         public void Update(T Entity)

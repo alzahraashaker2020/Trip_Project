@@ -37,6 +37,7 @@ namespace Trip.Controllers
                 Phone = driver_VM.phone,
                 Email = driver_VM.email,
                 LicenceId = driver_VM.licenceId,
+                NationalId=driver_VM.nationalId,
                 Password = driver_VM.password,
                 RoleId = 2,
                 SutatusSuspend = 1,
@@ -45,8 +46,11 @@ namespace Trip.Controllers
             try
             {
                 repo.Save();
+
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                return Json(new { ID = "401", Result = "Enter valid data" }, new System.Text.Json.JsonSerializerOptions());
+            }
 
             return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
         }
@@ -59,20 +63,27 @@ namespace Trip.Controllers
         [Route("AddFavouriteArea")]
         public JsonResult AddFavouriteArea(int driverID, int areaId)
         {
-
-            FavouriteArea favArea = new FavouriteArea()
+           var exist= repo._User.GetByID(driverID);
+            if (exist.RoleId == 2 && exist.SutatusSuspend == 0)
             {
-                DriverId = driverID,
-                AreaId = areaId,
-            };
-            repo._FavouriteArea.Create(favArea);
-            try
-            {
-                repo.Save();
+                FavouriteArea favArea = new FavouriteArea()
+                {
+                    DriverId = driverID,
+                    AreaId = areaId,
+                };
+                repo._FavouriteArea.Create(favArea);
+                try
+                {
+                    repo.Save();
+                    return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
+                }
+                catch (Exception e)
+                {
+                    return Json(new { ID = "401", Result = "Enter valid data" }, new System.Text.Json.JsonSerializerOptions());
+                }
             }
-            catch (Exception e) { }
 
-            return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
+            return Json(new { ID = "300", Result = "it is not allowed for you" }, new System.Text.Json.JsonSerializerOptions());
         }
 
 
@@ -80,17 +91,24 @@ namespace Trip.Controllers
         [Route("GetDriverFavAreas")]
         public string GetDriverFavAreas(int driverId)
         {
-            List<string> include = new List<string>();
-            include.Add("Area");
-            var areas = repo._FavouriteArea.GetAllWithInc(include).Result.Where(s => s.DriverId == driverId).ToList();
-            var json = JsonSerializer.Serialize(areas, new JsonSerializerOptions()
+            var exist = repo._User.GetByCondition(s => s.SutatusSuspend == 0 && s.RoleId == 2&&s.Id==driverId);
+            if (exist.Count!=0)
             {
-                WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.Preserve
-            });
 
 
-            return json;
+                List<string> include = new List<string>();
+                include.Add("Area");
+                var areas = repo._FavouriteArea.GetAllWithInc(include).Where(s => s.DriverId == driverId).ToList();
+                var json = JsonSerializer.Serialize(areas, new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    ReferenceHandler = ReferenceHandler.Preserve
+                });
+
+
+                return json;
+            }
+            return "please check your Id";
         }
 
 
@@ -110,7 +128,7 @@ namespace Trip.Controllers
             }
             catch (Exception e) { }
             //add event
-            repo._Event.Create(new Event() { RideId = ride_Id, EventDate = DateTime.Now, EventName = "offer_price" });
+            repo._Event.Create(new Event() { RideId = ride_Id, EventDate = DateTime.Now, EventName = "offer_price" ,UserId=driver_Id});
 
 
             //notify passenger
@@ -120,12 +138,13 @@ namespace Trip.Controllers
             try
             {
                 repo.Save();
+                return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
             }
             catch (Exception e)
             {
-                var ss = e.Message;
+                
             }
-            return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
+            return Json(new { ID = "401", Result = "please enter valid data" }, new System.Text.Json.JsonSerializerOptions());
         }
 
         [HttpGet]
@@ -168,54 +187,56 @@ namespace Trip.Controllers
         [Route("GetListOfRideOnArea")]
         public JsonResult GetListOfRideOnArea(int driverId, int areaId)
         {
-            var allrides = repo._Ride.GetByCondition(s => s.DriverId == driverId && s.SourceArea == areaId).FirstOrDefault();
+            var allrides = repo._Ride.GetByCondition(s => s.DriverId == driverId && s.SourceArea == areaId).ToList();
             return Json(allrides, new JsonSerializerOptions());
         }
 
 
         [HttpPost]
         [Route("DriverArriveToSourse")]
-        public JsonResult DriverArriveToSourse(int rideId)
+        public JsonResult DriverArriveToSourse(int rideId,int driverId)
         {
 
-            var ride = repo._Ride.GetByID(rideId).Result;
+            var ride = repo._Ride.GetByID(rideId);
             ride.RideState = 2;
 
             repo._Ride.Update(ride);
 
             //add DriverArriveToDestination  event 
-            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "Driver Arrive To Sourse", RideId = ride.Id });
+            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "Driver Arrive To Sourse", RideId = ride.Id,UserId=driverId });
 
             try
             {
                 repo.Save();
+                return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
             }
             catch (Exception e) { }
 
-            return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
+            return Json(new { ID = "401", Result = "enter valid data" }, new JsonSerializerOptions());
         }
 
 
         [HttpPost]
         [Route("DriverArriveToDestination")]
-        public JsonResult DriverArriveToDestination(int rideId)
+        public JsonResult DriverArriveToDestination(int rideId,int driverId)
         {
 
-            var ride = repo._Ride.GetByID(rideId).Result;
+            var ride = repo._Ride.GetByID(rideId);
             ride.RideState = 3;
 
             repo._Ride.Update(ride);
 
             //add DriverArriveToDestination  event 
-            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "Driver Arrive To Destination", RideId = ride.Id });
+            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "Driver Arrive To Destination", RideId = ride.Id,UserId=driverId });
 
             try
             {
                 repo.Save();
+                return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
             }
             catch (Exception e) { }
 
-            return Json(new { ID = "200", Result = "Ok" }, new JsonSerializerOptions());
+            return Json(new { ID = "401", Result = "enter valid data" }, new JsonSerializerOptions());
         }
 
         [HttpGet]

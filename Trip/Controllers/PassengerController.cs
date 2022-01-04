@@ -48,10 +48,11 @@ namespace Trip.Controllers
             try
             {
                 repo.Save();
+                return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
             }
             catch (Exception e) { }
 
-            return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
+            return Json(new { ID = "401", Result = "enter valid data" }, new System.Text.Json.JsonSerializerOptions());
         }
 
         [HttpPost]
@@ -82,7 +83,10 @@ namespace Trip.Controllers
             var newRide = new Ride() { RideState = 0, ClientId = userId, SourceArea = source, DistinationArea = destination, Date = DateTime.Now, PassengerNo = Nopassenger };
 
             //get only user that set source as favourite area 
-            var busyDrivers = repo._Ride.GetByCondition(s => s.RideState == 1).Select(s => s.DriverId).Distinct().ToList();
+            var busyDrivers = repo._Ride.GetByCondition(s => s.RideState !=0).Select(s => s.DriverId).Distinct().ToList();
+            var drivers = repo._FavouriteArea.GetByCondition(s => s.AreaId == source).Select(s => s.DriverId);
+            var drivero = drivers.Distinct().ToList().Where(f => !busyDrivers.Contains(f));
+
             var avaliableDriver = repo._FavouriteArea.GetByCondition(s => s.Driver.SutatusSuspend == 0 && s.AreaId == source).Select(s => s.DriverId).Distinct().ToList().Where(f => !busyDrivers.Contains(f));
 
             //add ride 
@@ -91,7 +95,7 @@ namespace Trip.Controllers
 
             //Discounts sales = new Discounts(null);
             //2-compare date of ride with passenger birth day
-            var passenger = repo._User.GetByID(userId).Result;
+            var passenger = repo._User.GetByID(userId);
            if( passenger.BirthDate.Value.Month== DateTime.Now.Month&& passenger.BirthDate.Value.Day== DateTime.Now.Day)
             {
                 newRide.DiscountVal = 0.1;
@@ -129,13 +133,13 @@ namespace Trip.Controllers
 
 
             //add ask ride event 
-            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "client ask ride", RideId = newRide.Id });
+            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "client ask ride", RideId = newRide.Id,UserId=userId });
 
             try
             {
                 repo.Save();
             }
-            catch (Exception e) { }
+            catch (Exception e) { return Json(e, new JsonSerializerOptions()); }
 
             return Json(avaliableDriver, new JsonSerializerOptions());
         }
@@ -153,30 +157,38 @@ namespace Trip.Controllers
 
         [HttpPost]
         [Route("AcceptOffer")]
-        public JsonResult AcceptOffer( int offerId)
+        public JsonResult AcceptOffer( int offerId,int clientId)
         {
 
-            var exist = repo._Offer.GetByID(offerId).Result;
+            var exist = repo._Offer.GetByID(offerId);
             exist.Status = true;
+            int diverId = (int)exist.DriverId;
 
             repo._Offer.Update(exist);
 
             //add ask ride event 
-            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "user_accept_offer", RideId = exist.RideId });
+            repo._Event.Create(new Event() { EventDate = DateTime.Now, EventName = "user_accept_offer", RideId = exist.RideId,UserId=clientId });
 
             //update Ride State with one
            int rideId= (int)exist.RideId;
-            var ride=repo._Ride.GetByID(rideId).Result;
+            var ride=repo._Ride.GetByID(rideId);
             ride.RideState = 1;
+            ride.DriverId = diverId;
             repo._Ride.Update(ride);
 
             try
             {
                 repo.Save();
-            }
-            catch (Exception e) { }
+                return Json(new { ID = "200", Result = "Ok" }, new System.Text.Json.JsonSerializerOptions());
 
-            return Json(exist, new JsonSerializerOptions());
+            }
+            catch (Exception e) {
+               
+            }
+
+
+            return Json(new { ID = "401", Result = "enter valid data" }, new System.Text.Json.JsonSerializerOptions());
+
         }
 
         [HttpPost]

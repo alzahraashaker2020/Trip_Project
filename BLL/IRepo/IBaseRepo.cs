@@ -10,9 +10,9 @@ namespace BLL.IRepo
     public interface IBaseRepo<T>
     {
         List<T> GetAll();
-        Task<List<T>> GetAllWithInc(List<string> inclde_List);
-        Task<List<T>> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null);
-        Task<T> GetByID(int Id);
+        List<T> GetAllWithInc(List<string> inclde_List);
+        List<T> GetByConditionWithInclude(Expression<Func<T, bool>> expression, List<string> inclde_List = null);
+        T GetByID(int Id);
         List<T> GetByCondition(Expression<Func<T, bool>> expression);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> order = null, string includeproperties = "");
         void Create(T Entity);
